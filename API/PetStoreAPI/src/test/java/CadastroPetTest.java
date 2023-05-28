@@ -19,7 +19,6 @@ class CadastroPetTest extends BaseConfig {
     Status statusPet;
     List<String> urlPhotosPet = new ArrayList<>();
     Pet pet;
-    long userId;
     String jsonPet;
     String apiKey;
 
@@ -37,7 +36,7 @@ class CadastroPetTest extends BaseConfig {
         pet = new Pet(petId, categoryPet, nomePet, urlPhotosPet, tagPet, statusPet);
         jsonPet = gson.toJson(pet);
 
-        Response responsePet = (Response)
+        Response responsePet =
                 given()
                     .header("Content-Type", contentType)
                 .when()
@@ -58,7 +57,6 @@ class CadastroPetTest extends BaseConfig {
         }
     }
 
-    //TODO: 28/05/23 2.1 - Cadastre o gato "Bichento"
     @Test
     @Order(1)
     @DisplayName("Cadastro Pet")

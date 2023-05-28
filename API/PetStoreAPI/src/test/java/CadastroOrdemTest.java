@@ -1,10 +1,16 @@
 import ENUMS.Status;
+import POJO.Category;
 import POJO.Ordem;
+import POJO.Pet;
+import POJO.Tag;
 import com.google.gson.Gson;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -19,6 +25,13 @@ class CadastroOrdemTest extends BaseConfig
     static String ordemShipDate;
     static Status ordemStatus;
     static Boolean ordemComplete;
+    static String nomePet;
+    static Category categoryPet;
+    static List<Tag> tagPet = new ArrayList<>();
+    static Status statusPet;
+    static List<String> urlPhotosPet = new ArrayList<>();
+    static Pet pet;
+    static String jsonPet;
     static String apiKey;
     static Ordem ordem;
     static String jsonOrdem;
@@ -36,7 +49,41 @@ class CadastroOrdemTest extends BaseConfig
 
         ordem = new Ordem(ordemId, ordemPetId, ordemQuantity, ordemShipDate, ordemStatus, ordemComplete);
         jsonOrdem = gson.toJson(ordem);
+        categoryPet = new Category(1, "Gato");
+        nomePet = "Bichento";
+        tagPet.add(new Tag(1, "Felino"));
+        urlPhotosPet.add("https://static.wikia.nocookie.net/harrypotter/images/a/aa/Bichento_FH.png/revision/latest/scale-to-width-down/220?cb=20180831030300&path-prefix=pt-br");
+        statusPet = Status.available;
+        apiKey = "special-key";
 
+        pet = new Pet(ordemPetId, categoryPet, nomePet, urlPhotosPet, tagPet, statusPet);
+        jsonPet = gson.toJson(pet);
+
+        Response responsePet = (Response)
+                given()
+                        .header("Content-Type", contentType)
+                        .when()
+                        .get(baseUrl + petEndpoint + "/" + ordemPetId);
+
+        // Verifica e cria um pet se ele não existir
+        if (responsePet.getStatusCode() == 404) {
+            given()
+                    .header("Content-Type", contentType)
+                    .body(jsonPet)
+                    .when()
+                    .post(baseUrl + petEndpoint)
+                    .then()
+                    .statusCode(200)
+                    .body("id", equalTo(ordemPetId))
+                    .body("name", equalTo(nomePet))
+                    .body("status", equalTo(statusPet.name()))
+                    .body("category.id", equalTo(categoryPet.getId()))
+                    .body("category.name", equalTo(categoryPet.getName()))
+                    .body("photoUrls[0]", equalTo(urlPhotosPet.get(0)))
+                    .body("tags[0].id", equalTo(tagPet.get(0).getId()))
+                    .body("tags[0].name", equalTo(tagPet.get(0).getName()))
+            ;
+        }
         // Verifica e deleta a ordem antes de cada teste
         Response responseOrdem =
             given()

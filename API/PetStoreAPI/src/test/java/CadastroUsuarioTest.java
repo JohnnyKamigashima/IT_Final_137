@@ -39,7 +39,7 @@ class CadastroUsuarioTest extends BaseConfig {
             User user = new User(userId, username, userFirstName, userLastName, userEmail, userPassword, userPphone, userStatus);
             jsonUser = gson.toJson(user);
 
-            Response responseUser = (Response)
+            Response responseUser =
                     given()
                             .header("Content-Type", contentType)
                             .when()
@@ -60,7 +60,6 @@ class CadastroUsuarioTest extends BaseConfig {
             }
         }
 
-        //TODO  28/05/23 2.2 - Cadastre a usuária "Hermione Granger"
         @Test
         @Order(2)
         @DisplayName("Cadastro Usuario")

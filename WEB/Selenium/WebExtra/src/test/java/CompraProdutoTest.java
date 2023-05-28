@@ -1,9 +1,7 @@
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CompraProdutoTest {
 
-    //Todo 3 - Teste Web - utilize o site https://www.extra.com.br
      String baseUrl = "https://www.extra.com.br";
     static WebDriver navegador;
     static String chromeDriverPath = "/opt/homebrew/bin/chromedriver";//Configura caminho do chromedriver
@@ -31,8 +28,6 @@ public class CompraProdutoTest {
         System.setProperty("webdriver.chrome.driver", chromeDriverPath);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
-
-        //#Adding argument to disable the AutomationControlled flag
         options.addArguments("--disable-blink-features=AutomationControlled");
 
         navegador = new ChromeDriver(options);
@@ -49,11 +44,6 @@ public class CompraProdutoTest {
 
     @Test
     void ComprarProduto() throws InterruptedException {
-    //Todo 3.1 - Crie um script simples que realize a consulta de um produto no site até chegar a etapa do carrinho de compras.
-    //      Valide o nome e o preço do produto em cada uma das telas para garantir que se mantenha o mesmo.
-    //Todo 3.2 - Organize esse mesmo script organizado com um arquivo de features e outro de passos.
-    //      Realize o teste com 2 produtos cujos dados devem estar preenchidos na feature.
-    //Todo 3.3 - Organize esse mesmo script em Page Objects e execute localmente
         navegador.get(baseUrl);
         WebElement procura = navegador.findElement(By.xpath("//input[@id='strBusca']"));
         WebElement botaoLupa = navegador.findElement(By.xpath("//button[@id='btnOK']"));
