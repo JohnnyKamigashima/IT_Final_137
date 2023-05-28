@@ -14,7 +14,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build with Maven
-        run: 
+        run: |
           cd UNIDADE/Racao_Cao
           mvn test --batch-mode --fail-at-end surefire-report:report
       - name: JUnit Report Action
