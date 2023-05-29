@@ -2,12 +2,14 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 public class HomePage extends BasePage {
     public HomePage(WebDriver navegador) {
         super(navegador);
     }
+
+    By procura = By.xpath("//input[@id='strBusca']");
+    By botaoLupa = By.xpath("//button[@id='btnOK']");
 
     public HomePage visitaHomePage(String baseUrl) {
         navegador.get(baseUrl);
@@ -15,15 +17,12 @@ public class HomePage extends BasePage {
     }
 
     public HomePage pesquisaProduto(String produto) {
-
-        WebElement procura = navegador.findElement(By.xpath("//input[@id='strBusca']"));
-        procura.sendKeys(produto);
+        navegador.findElement(procura).sendKeys(produto);
         return this;
     }
 
     public ResultadoPage clicarBotaoLupa() {
-        WebElement botaoLupa = navegador.findElement(By.xpath("//button[@id='btnOK']"));
-        botaoLupa.click();
+        navegador.findElement(botaoLupa).click();
         return new ResultadoPage(navegador);
     }
 

@@ -2,7 +2,6 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -12,20 +11,20 @@ public class ProdutoPage extends BasePage {
         super(navegador);
     }
 
-    public ProdutoPage verificarProduto(String produto, String valor) {
-        WebElement nomeProduto = navegador.findElement(By.xpath("//h1[contains(text(),'" + produto + "')]"));
-        WebElement precoProduto = navegador.findElement(By.xpath("//span[@id='product-price'][contains(text(), '" + valor + "')]"));
+    By botaoComprar = By.xpath("//button[contains(.,'Comprar')]");
 
-        assertTrue(nomeProduto.isDisplayed());
-        assertTrue(precoProduto.isDisplayed());
+    public ProdutoPage verificarProduto(String produto, String valor) {
+        By nomeProduto = By.xpath("//h1[contains(text(),'" + produto + "')]");
+        By precoProduto = By.xpath("//span[@id='product-price'][contains(text(), '" + valor + "')]");
+
+        assertTrue(navegador.findElement(nomeProduto).isDisplayed());
+        assertTrue(navegador.findElement(precoProduto).isDisplayed());
         return this;
     }
 
     public CarrinhoPage clicarBotaoComprar() {
-        WebElement botaoComprar = navegador.findElement(By.xpath("//button[contains(.,'Comprar')]"));
-        botaoComprar.click();
+
+        navegador.findElement(botaoComprar).click();
         return new CarrinhoPage(navegador);
     }
-
-
 }
